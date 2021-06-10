@@ -1,11 +1,13 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TabButton = exports.WarningButton = exports.DangerButton = exports.IconButton = exports.TertiaryButton = exports.SecondaryButton = exports.PrimaryButton = exports.ThemedButton = void 0;
+exports["default"] = exports.defaultProps = exports.propTypes = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -19,9 +21,15 @@ var _Container = require("./Container");
 
 var _jsxRuntime = require("react/jsx-runtime");
 
+var _excluded = ["margin", "progress", "onClick", "type", "contrast", "children"];
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -32,64 +40,104 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 var Button = function Button(_ref) {
-  var theme = _ref.theme,
-      margin = _ref.margin,
-      padding = _ref.padding,
-      border = _ref.border,
-      background = _ref.background,
-      width = _ref.width,
-      height = _ref.height,
-      contrast = _ref.contrast,
+  var margin = _ref.margin,
       progress = _ref.progress,
       _onClick = _ref.onClick,
+      type = _ref.type,
+      contrast = _ref.contrast,
       children = _ref.children,
-      props = _objectWithoutProperties(_ref, ["theme", "margin", "padding", "border", "background", "width", "height", "contrast", "progress", "onClick", "children"]);
+      props = _objectWithoutProperties(_ref, _excluded);
 
-  margin = (0, _Container.compileMargin)(theme.spacing, _objectSpread(_objectSpread({}, theme.button.margin), _primitiveUiSpec.Container.normalizeMargin(margin)));
-  padding = (0, _Container.compilePadding)(theme.spacing, _objectSpread(_objectSpread({}, theme.button.padding), _primitiveUiSpec.Container.normalizePadding(padding)));
-  border = border || theme.button.border;
-  background = background || theme.button.background;
-  width = width || theme.button.width;
-  height = height || theme.button.height;
+  var theme = (0, _react.useContext)(_style.ThemeContext);
+  var preparedTheme = prepareTheme(theme, {
+    type: type,
+    contrast: contrast
+  });
 
   if (progress) {
-    children = putProgress(theme, children);
+    children = putProgress(preparedTheme, children);
   }
 
-  if (contrast) {
-    theme.button.color = theme.button.contrast.color;
-  }
-
-  children = addColor(children, theme.button.color);
-  children = addMargin(children, theme);
+  children = addColor(children, preparedTheme.button.color);
+  children = addMargin(children);
   return /*#__PURE__*/(0, _jsxRuntime.jsx)(_primitiveUi.Button, _objectSpread(_objectSpread({
     flow: "row",
-    margin: margin,
-    padding: padding,
-    border: border,
-    background: background,
-    width: width,
-    height: height,
-    onClick: function onClick() {
+    margin: (0, _Container.compileMargin)(preparedTheme.spacing, _objectSpread(_objectSpread({}, preparedTheme.button.margin), _primitiveUiSpec.Container.normalizeMargin(margin))),
+    padding: (0, _Container.compilePadding)(preparedTheme.spacing, preparedTheme.button.padding),
+    border: preparedTheme.button.border,
+    background: preparedTheme.button.background,
+    width: preparedTheme.button.width,
+    height: preparedTheme.button.height,
+    onClick: function onClick(value) {
       // It is still an onClick function but do nothing
       if (progress) {
         return;
       }
 
-      _onClick();
+      _onClick(value);
     }
   }, props), {}, {
     children: children
   }));
 };
 
-exports.ThemedButton = Button;
-Button.propTypes = {
-  contrast: _propTypes["default"].bool,
+var propTypes = {
   margin: _primitiveUiSpec.Container.MarginProp,
-  padding: _primitiveUiSpec.Container.PaddingProp,
   progress: _propTypes["default"].bool,
-  onClick: _primitiveUiSpec.Container.OnClickProp.isRequired
+  onClick: _primitiveUiSpec.Container.OnClickProp.isRequired,
+  type: _propTypes["default"].oneOf(["primary", "secondary", "tertiary", "icon"]),
+  contrast: _propTypes["default"].bool
+};
+exports.propTypes = propTypes;
+var defaultProps = {
+  type: "primary",
+  contrast: false
+};
+exports.defaultProps = defaultProps;
+Button.propTypes = propTypes;
+Button.defaultProps = defaultProps;
+
+var prepareTheme = function prepareTheme(theme, _ref2) {
+  var type = _ref2.type,
+      contrast = _ref2.contrast;
+  var preparedTheme = {};
+
+  switch (type) {
+    case "primary":
+      preparedTheme = _objectSpread(_objectSpread({}, theme), {}, {
+        button: _objectSpread(_objectSpread({}, theme.button), theme.button.primary_type)
+      });
+      break;
+
+    case "secondary":
+      preparedTheme = _objectSpread(_objectSpread({}, theme), {}, {
+        button: _objectSpread(_objectSpread({}, theme.button), theme.button.secondary_type)
+      });
+      break;
+
+    case "tertiary":
+      preparedTheme = _objectSpread(_objectSpread({}, theme), {}, {
+        button: _objectSpread(_objectSpread({}, theme.button), theme.button.tertiary_type)
+      });
+      break;
+
+    case "icon":
+      preparedTheme = _objectSpread(_objectSpread({}, theme), {}, {
+        button: _objectSpread(_objectSpread({}, theme.button), theme.button.icon_type)
+      });
+      break;
+
+    default:
+      throw new Error("Unknown type ".concat(type, "."));
+  }
+
+  if (contrast) {
+    preparedTheme = _objectSpread(_objectSpread({}, preparedTheme), {}, {
+      button: _objectSpread(_objectSpread({}, preparedTheme.button), preparedTheme.button.is_contrast)
+    });
+  }
+
+  return preparedTheme;
 };
 
 var isIcon = function isIcon(elem) {
@@ -97,25 +145,24 @@ var isIcon = function isIcon(elem) {
 };
 
 var putProgress = function putProgress(theme, children) {
-  var progress = /*#__PURE__*/(0, _jsxRuntime.jsx)(_primitiveUi.Progress, {
-    size: 10
-  });
-
   var count = _react["default"].Children.count(children);
+
+  var progress = /*#__PURE__*/(0, _jsxRuntime.jsx)(_primitiveUi.Progress, {
+    color: theme.button.color
+  });
 
   switch (count) {
     case 1:
       if (isIcon(children)) {
         children = progress;
       } else {
-        children = [children, /*#__PURE__*/(0, _jsxRuntime.jsx)(_primitiveUi.Progress, {
-          color: theme.button.color,
+        children = [children, /*#__PURE__*/(0, _jsxRuntime.jsx)(progress.type, _objectSpread(_objectSpread({}, progress.props), {}, {
           style: {
             position: "absolute",
-            top: theme.spacing(theme.button.padding.top) + theme.button.progress.top,
+            top: theme.button.padding && theme.button.progress && theme.spacing(theme.button.padding.top) + theme.button.progress.top,
             right: theme.spacing(2)
           }
-        })];
+        }))];
       }
 
       break;
@@ -166,135 +213,5 @@ var addMargin = function addMargin(children) {
   });
 };
 
-var PrimaryButton = function PrimaryButton(_ref2) {
-  var theme = _ref2.theme,
-      props = _objectWithoutProperties(_ref2, ["theme"]);
-
-  theme = _objectSpread(_objectSpread({}, theme), {}, {
-    button: _objectSpread(_objectSpread(_objectSpread({}, theme.button), theme.primary_button), {}, {
-      border: _objectSpread(_objectSpread({}, theme.button.border), theme.primary_button.border)
-    })
-  });
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(Button, _objectSpread({
-    theme: theme
-  }, props));
-};
-
-var PrimaryButtonWithTheme = (0, _style.withTheme)(PrimaryButton);
-exports.PrimaryButton = PrimaryButtonWithTheme;
-
-var SecondaryButton = function SecondaryButton(_ref3) {
-  var theme = _ref3.theme,
-      props = _objectWithoutProperties(_ref3, ["theme"]);
-
-  theme = _objectSpread(_objectSpread({}, theme), {}, {
-    button: _objectSpread(_objectSpread(_objectSpread({}, theme.button), theme.secondary_button), {}, {
-      border: _objectSpread(_objectSpread({}, theme.button.border), theme.secondary_button.border)
-    })
-  });
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(Button, _objectSpread({
-    theme: theme
-  }, props));
-};
-
-var SecondaryButtonWithTheme = (0, _style.withTheme)(SecondaryButton);
-exports.SecondaryButton = SecondaryButtonWithTheme;
-
-var TertiaryButton = function TertiaryButton(_ref4) {
-  var theme = _ref4.theme,
-      props = _objectWithoutProperties(_ref4, ["theme"]);
-
-  theme = _objectSpread(_objectSpread({}, theme), {}, {
-    button: _objectSpread(_objectSpread(_objectSpread({}, theme.button), theme.tertiary_button), {}, {
-      border: _objectSpread(_objectSpread({}, theme.button.border), theme.tertiary_button.border)
-    })
-  });
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(Button, _objectSpread({
-    theme: theme
-  }, props));
-};
-
-var TertiaryButtonWithTheme = (0, _style.withTheme)(TertiaryButton);
-exports.TertiaryButton = TertiaryButtonWithTheme;
-
-var IconButton = function IconButton(_ref5) {
-  var theme = _ref5.theme,
-      props = _objectWithoutProperties(_ref5, ["theme"]);
-
-  theme = _objectSpread(_objectSpread({}, theme), {}, {
-    button: _objectSpread(_objectSpread(_objectSpread({}, theme.button), theme.icon_button), {}, {
-      border: _objectSpread(_objectSpread({}, theme.button.border), theme.icon_button.border)
-    })
-  });
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(Button, _objectSpread({
-    theme: theme
-  }, props));
-};
-
-var IconButtonWithTheme = (0, _style.withTheme)(IconButton);
-exports.IconButton = IconButtonWithTheme;
-
-var WarningButton = function WarningButton(_ref6) {
-  var theme = _ref6.theme,
-      props = _objectWithoutProperties(_ref6, ["theme"]);
-
-  theme = _objectSpread(_objectSpread({}, theme), {}, {
-    button: _objectSpread(_objectSpread(_objectSpread({}, theme.button), theme.warning_button), {}, {
-      border: _objectSpread(_objectSpread({}, theme.button.border), theme.warning_button.border)
-    })
-  });
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(Button, _objectSpread({
-    theme: theme
-  }, props));
-};
-
-var WarningButtonWithTheme = (0, _style.withTheme)(WarningButton);
-exports.WarningButton = WarningButtonWithTheme;
-
-var DangerButton = function DangerButton(_ref7) {
-  var theme = _ref7.theme,
-      props = _objectWithoutProperties(_ref7, ["theme"]);
-
-  theme = _objectSpread(_objectSpread({}, theme), {}, {
-    button: _objectSpread(_objectSpread(_objectSpread({}, theme.button), theme.danger_button), {}, {
-      border: _objectSpread(_objectSpread({}, theme.button.border), theme.danger_button.border)
-    })
-  });
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(Button, _objectSpread({
-    theme: theme
-  }, props));
-};
-
-var DangerButtonWithTheme = (0, _style.withTheme)(DangerButton);
-exports.DangerButton = DangerButtonWithTheme;
-
-var TabButton = function TabButton(_ref8) {
-  var theme = _ref8.theme,
-      first = _ref8.first,
-      last = _ref8.last,
-      props = _objectWithoutProperties(_ref8, ["theme", "first", "last"]);
-
-  theme = _objectSpread(_objectSpread({}, theme), {}, {
-    button: _objectSpread(_objectSpread(_objectSpread({}, theme.button), theme.tab_button), {}, {
-      border: _objectSpread(_objectSpread(_objectSpread({}, theme.button.border), theme.tab_button.border), {}, {
-        left: !first ? {
-          width: 1,
-          color: theme.tab_button.border.color
-        } : undefined
-      }),
-      padding: {
-        left: !first ? theme.tab_button.padding.left : undefined,
-        right: !last ? theme.tab_button.padding.right : undefined
-      }
-    })
-  });
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(Button, _objectSpread({
-    theme: theme,
-    align: {
-      main: "flex-start"
-    }
-  }, props));
-};
-
-var TabButtonWithTheme = (0, _style.withTheme)(TabButton);
-exports.TabButton = TabButtonWithTheme;
+var _default = Button;
+exports["default"] = _default;

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PictureProps = exports.Picture = void 0;
+exports["default"] = exports.Props = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -48,7 +48,6 @@ var Picture = function Picture(_ref) {
   });
 };
 
-exports.Picture = Picture;
 var Props = {
   margin: _primitiveUiSpec.Container.MarginProp,
   source: _primitiveUiSpec.Image.SourceProp,
@@ -57,7 +56,7 @@ var Props = {
   size: _propTypes["default"].oneOf(["sm", "md", "lg", "xl"]),
   onClick: _propTypes["default"].func
 };
-exports.PictureProps = Props;
+exports.Props = Props;
 Picture.propTypes = Props;
 Picture.defaultProps = {
   rounded: true,
@@ -90,3 +89,6 @@ var buildSize = function buildSize(size) {
 
   return size;
 };
+
+var _default = Picture;
+exports["default"] = _default;

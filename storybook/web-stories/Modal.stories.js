@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {ThemeProvider} from "@yosmy/style";
 import Modal from '../Modal';
-import {Text} from '../Text';
+import Text from '../Text';
 import {PrimaryButton} from '../Button';
 import theme from "../_Theme";
 

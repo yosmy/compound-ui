@@ -1,11 +1,26 @@
 import React from 'react';
-import {ThemeProvider} from "@yosmy/style";
-import {Picture} from '../Picture';
-import theme from "../_Theme";
+import Picture from '../Picture';
 
 export default {
-  title: 'Picture',
-  component: Picture,
+    title: 'Picture',
+    component: Picture,
+    argTypes: {
+        source: {
+            table: {
+                disable:true
+            }
+        },
+        resize: {
+            table: {
+                disable:true
+            }
+        },
+        onClick: {
+            table: {
+                disable:true
+            }
+        }
+    }
 };
 
 const Template = ({...props}) => {
@@ -14,17 +29,10 @@ const Template = ({...props}) => {
         size: "md"
     };
 
-    return <ThemeProvider theme={theme}>
-        <Picture
-            {...common}
-            {...props}
-        />
-    </ThemeProvider>
+    return <Picture
+        {...common}
+        {...props}
+    />
 };
 
 export const Default = Template.bind({});
-
-export const WithRounded = Template.bind({});
-WithRounded.args = {
-    rounded: true
-}

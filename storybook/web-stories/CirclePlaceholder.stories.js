@@ -1,7 +1,5 @@
 import React from 'react';
-import {ThemeProvider} from "@yosmy/style";
 import CirclePlaceholder from '../CirclePlaceholder';
-import theme from "../_Theme";
 
 export default {
   title: 'CirclePlaceholder',
@@ -9,9 +7,7 @@ export default {
 };
 
 const Template = ({...props}) => {
-  return <ThemeProvider theme={theme}>
-      <CirclePlaceholder {...props} />
-  </ThemeProvider>
+  return <CirclePlaceholder {...props} />
 };
 
 export const Default = Template.bind({});

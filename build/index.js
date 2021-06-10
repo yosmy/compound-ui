@@ -15,52 +15,10 @@ Object.defineProperty(exports, "BufferList", {
     return _BufferList["default"];
   }
 });
-Object.defineProperty(exports, "ThemedButton", {
+Object.defineProperty(exports, "Button", {
   enumerable: true,
   get: function get() {
-    return _Button.ThemedButton;
-  }
-});
-Object.defineProperty(exports, "PrimaryButton", {
-  enumerable: true,
-  get: function get() {
-    return _Button.PrimaryButton;
-  }
-});
-Object.defineProperty(exports, "SecondaryButton", {
-  enumerable: true,
-  get: function get() {
-    return _Button.SecondaryButton;
-  }
-});
-Object.defineProperty(exports, "TertiaryButton", {
-  enumerable: true,
-  get: function get() {
-    return _Button.TertiaryButton;
-  }
-});
-Object.defineProperty(exports, "IconButton", {
-  enumerable: true,
-  get: function get() {
-    return _Button.IconButton;
-  }
-});
-Object.defineProperty(exports, "WarningButton", {
-  enumerable: true,
-  get: function get() {
-    return _Button.WarningButton;
-  }
-});
-Object.defineProperty(exports, "DangerButton", {
-  enumerable: true,
-  get: function get() {
-    return _Button.DangerButton;
-  }
-});
-Object.defineProperty(exports, "TabButton", {
-  enumerable: true,
-  get: function get() {
-    return _Button.TabButton;
+    return _Button["default"];
   }
 });
 Object.defineProperty(exports, "Card", {
@@ -111,12 +69,6 @@ Object.defineProperty(exports, "EmptyLayout", {
     return _EmptyLayout["default"];
   }
 });
-Object.defineProperty(exports, "Error", {
-  enumerable: true,
-  get: function get() {
-    return _Error["default"];
-  }
-});
 Object.defineProperty(exports, "Flag", {
   enumerable: true,
   get: function get() {
@@ -126,7 +78,7 @@ Object.defineProperty(exports, "Flag", {
 Object.defineProperty(exports, "Icon", {
   enumerable: true,
   get: function get() {
-    return _Icon.Icon;
+    return _Icon["default"];
   }
 });
 Object.defineProperty(exports, "Image", {
@@ -216,13 +168,7 @@ Object.defineProperty(exports, "Modal", {
 Object.defineProperty(exports, "Picture", {
   enumerable: true,
   get: function get() {
-    return _Picture.Picture;
-  }
-});
-Object.defineProperty(exports, "PictureProps", {
-  enumerable: true,
-  get: function get() {
-    return _Picture.PictureProps;
+    return _Picture["default"];
   }
 });
 Object.defineProperty(exports, "Progress", {
@@ -234,31 +180,13 @@ Object.defineProperty(exports, "Progress", {
 Object.defineProperty(exports, "Text", {
   enumerable: true,
   get: function get() {
-    return _Text.Text;
+    return _Text["default"];
   }
 });
-Object.defineProperty(exports, "BannerText", {
+Object.defineProperty(exports, "Theming", {
   enumerable: true,
   get: function get() {
-    return _Text.BannerText;
-  }
-});
-Object.defineProperty(exports, "TitleText", {
-  enumerable: true,
-  get: function get() {
-    return _Text.TitleText;
-  }
-});
-Object.defineProperty(exports, "SecondaryText", {
-  enumerable: true,
-  get: function get() {
-    return _Text.SecondaryText;
-  }
-});
-Object.defineProperty(exports, "Theme", {
-  enumerable: true,
-  get: function get() {
-    return _Theme["default"];
+    return _Theming["default"];
   }
 });
 Object.defineProperty(exports, "Tree", {
@@ -267,24 +195,12 @@ Object.defineProperty(exports, "Tree", {
     return _Tree["default"];
   }
 });
-Object.defineProperty(exports, "Upload", {
-  enumerable: true,
-  get: function get() {
-    return _Upload["default"];
-  }
-});
-Object.defineProperty(exports, "Warning", {
-  enumerable: true,
-  get: function get() {
-    return _Warning["default"];
-  }
-});
 
 var _BlankLayout = _interopRequireDefault(require("./BlankLayout"));
 
 var _BufferList = _interopRequireDefault(require("./BufferList"));
 
-var _Button = require("./Button");
+var _Button = _interopRequireDefault(require("./Button"));
 
 var _Card = require("./Card");
 
@@ -300,11 +216,9 @@ var _CreditCard = _interopRequireDefault(require("./CreditCard"));
 
 var _EmptyLayout = _interopRequireDefault(require("./EmptyLayout"));
 
-var _Error = _interopRequireDefault(require("./Error"));
-
 var _Flag = _interopRequireDefault(require("./Flag"));
 
-var _Icon = require("./Icon");
+var _Icon = _interopRequireDefault(require("./Icon"));
 
 var _Image = _interopRequireDefault(require("./Image"));
 
@@ -330,18 +244,14 @@ var _Loading = _interopRequireDefault(require("./Loading"));
 
 var _Modal = _interopRequireDefault(require("./Modal"));
 
-var _Picture = require("./Picture");
+var _Picture = _interopRequireDefault(require("./Picture"));
 
 var _Progress = _interopRequireDefault(require("./Progress"));
 
-var _Text = require("./Text");
+var _Text = _interopRequireDefault(require("./Text"));
 
-var _Theme = _interopRequireDefault(require("./Theme"));
+var _Theming = _interopRequireDefault(require("./Theming"));
 
 var _Tree = _interopRequireDefault(require("./Tree"));
-
-var _Upload = _interopRequireDefault(require("./Upload"));
-
-var _Warning = _interopRequireDefault(require("./Warning"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

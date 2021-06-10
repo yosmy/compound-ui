@@ -1,11 +1,13 @@
-import React from "react";
-import {withTheme} from "@yosmy/style";
+import React, {useContext, forwardRef} from "react";
+import {ThemeContext} from "@yosmy/style";
 import {Container as Spec} from "@yosmy/primitive-ui-spec";
 import {Container as BaseContainer} from "@yosmy/primitive-ui";
 
-const Container = ({
-    theme, margin, padding, children, ...props
-}) => {
+const Container = forwardRef(({
+    margin, padding, children, ...props
+}, ref) => {
+    const theme = useContext(ThemeContext);
+
     margin = compileMargin(
         theme.spacing,
         Spec.normalizeMargin(margin)
@@ -17,13 +19,14 @@ const Container = ({
     );
 
     return <BaseContainer
+        ref={ref}
         margin={margin}
         padding={padding}
         {...props}
     >
         {children}
     </BaseContainer>
-};
+});
 
 const compileMargin = (spacing, margin) => {
     margin = Spec.normalizeMargin(margin);
@@ -118,7 +121,7 @@ const compilePadding = (spacing, padding) => {
 
 Container.propTypes = Spec.Props;
 
-export default withTheme(Container);
+export default Container;
 
 export {
     compileMargin,

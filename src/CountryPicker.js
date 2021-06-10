@@ -2,11 +2,11 @@ import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import {withTheme} from "@yosmy/style";
 import {Container as ContainerSpec} from "@yosmy/primitive-ui-spec";
-import {TertiaryButton} from "./Button";
-import {Text} from "./Text";
+import Button from "./Button";
+import Text from "./Text";
 import BufferList from "./BufferList";
 import Input from "./Input";
-import {Icon} from "./Icon";
+import Icon from "./Icon";
 import Modal from "./Modal";
 import Container from "./Container";
 import Flag from "./Flag";
@@ -102,7 +102,6 @@ const CountryPicker = ({
                     <Flag
                         country={country}
                         size="md"
-                        margin={1}
                     />
                     <Text
                         margin={{
@@ -113,7 +112,8 @@ const CountryPicker = ({
                     </Text>
                 </Container>
             }
-            <TertiaryButton
+            <Button
+                type="tertiary"
                 margin={theme.country_picker.down.margin}
                 onClick={() => {
                     setSelect(true);
@@ -123,7 +123,7 @@ const CountryPicker = ({
                     data={ui.icons.actions.expand}
                     color={theme.country_picker.color}
                 />
-            </TertiaryButton>
+            </Button>
         </Container>
 
         {select && <Modal
@@ -155,7 +155,6 @@ const CountryPicker = ({
                 flex={1}
                 margin={{
                     top: 1,
-                    left: 2,
                     bottom: 1,
                     right: 2
                 }}
@@ -235,8 +234,15 @@ const CountryPicker = ({
                 }}
             />}
 
-            <TertiaryButton
+            <Button
+                type="tertiary"
                 flex={1}
+                margin={{
+                    left: 2,
+                    right: 2,
+                    top: 2,
+                    bottom: 2
+                }}
                 padding={{
                     top: 0,
                     bottom: 2,
@@ -259,7 +265,7 @@ const CountryPicker = ({
                 >
                     Cerrar
                 </Text>
-            </TertiaryButton>
+            </Button>
         </Modal>}
     </React.Fragment>
 };

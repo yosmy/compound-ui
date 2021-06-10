@@ -11,15 +11,17 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _primitiveUiSpec = require("@yosmy/primitive-ui-spec");
 
-var _Text = require("./Text");
+var _Text = _interopRequireDefault(require("./Text"));
 
 var _Container = _interopRequireDefault(require("./Container"));
 
 var _jsxRuntime = require("react/jsx-runtime");
 
+var _excluded = ["margin", "padding", "border", "background", "start", "title", "subtitle", "end", "disabled", "onClick"];
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -40,14 +42,14 @@ var ListItem = function ListItem(_ref) {
       end = _ref.end,
       disabled = _ref.disabled,
       onClick = _ref.onClick,
-      props = _objectWithoutProperties(_ref, ["margin", "padding", "border", "background", "start", "title", "subtitle", "end", "disabled", "onClick"]);
+      props = _objectWithoutProperties(_ref, _excluded);
 
   if (typeof start === "function") {
     start = start();
   }
 
   if (typeof title === "string") {
-    title = /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.Text, {
+    title = /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text["default"], {
       wrap: true,
       children: title
     });
@@ -56,7 +58,8 @@ var ListItem = function ListItem(_ref) {
   }
 
   if (typeof subtitle === "string") {
-    subtitle = /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.SecondaryText, {
+    subtitle = /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text["default"], {
+      type: "secondary",
       wrap: true,
       children: subtitle
     });

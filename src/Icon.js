@@ -1,24 +1,51 @@
-import React from "react";
-import {withTheme} from "@yosmy/style";
+import React, {useContext} from "react";
+import {ThemeContext} from "@yosmy/style";
+import PropTypes from "prop-types";
 
 const Icon = ({
-    theme, data, size, color, contrast, ...props
+    data, contrast, ...props
 }) => {
+    const theme = useContext(ThemeContext);
+
+    let preparedTheme = prepareTheme(
+        theme.icon,
+        {
+            contrast: contrast
+        }
+    );
+
     const Icon = data;
 
-    if (contrast) {
-        theme.icon.color = theme.icon.contrast.color;
-    }
-
     return <Icon
-        size={size || theme.icon.size}
-        color={color || theme.icon.color}
+        size={preparedTheme.size}
+        color={preparedTheme.color}
         {...props}
     />
 };
 
-const IconWithTheme = withTheme(Icon);
-
-export {
-    IconWithTheme as Icon,
+export const propTypes = {
+    contrast: PropTypes.bool,
 };
+
+export const defaultProps = {
+    contrast: false
+};
+
+Icon.propTypes = propTypes;
+
+Icon.defaultProps = defaultProps;
+
+const prepareTheme = (theme, {contrast}) => {
+    let preparedTheme = {};
+
+    if (contrast) {
+        preparedTheme = {
+            ...preparedTheme,
+            ...theme.is_contrast
+        };
+    }
+
+    return preparedTheme;
+};
+
+export default Icon;

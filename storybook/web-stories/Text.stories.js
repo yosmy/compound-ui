@@ -1,23 +1,15 @@
-import React from 'react';
-import {ThemeProvider} from "@yosmy/style";
-import {Text} from '../Text';
-import theme from "../_Theme";
+import React from "react";
+import Text from "../Text";
 
 export default {
-  title: 'Text',
-  component: Text,
+    title: "Text",
+    component: Text,
 };
 
 const Template = ({...props}) => {
-    return <ThemeProvider theme={theme}>
-        <Text {...props}>Text</Text>
-    </ThemeProvider>
+    return <Text {...props}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Idem iste, inquam, de voluptate quid sentit? Hi autem ponunt illi quidem prima naturae, sed ea seiungunt a finibus et a summa bonorum
+    </Text>
 };
 
 export const Default = Template.bind({});
-
-export const WithMargin = Template.bind({});
-WithMargin.args = {
-    margin: 10
-};
-

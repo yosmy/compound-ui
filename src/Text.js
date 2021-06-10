@@ -1,30 +1,30 @@
-import React from "react";
-import {withTheme} from "@yosmy/style";
-import {Container as ContainerSpec} from "@yosmy/primitive-ui-spec";
+import React, {useContext} from "react";
+import {ThemeContext} from "@yosmy/style";
+import {Text as Spec, Container as ContainerSpec} from "@yosmy/primitive-ui-spec";
 import {Text as BaseText} from "@yosmy/primitive-ui";
 import {compileMargin, compilePadding} from "./Container";
 import LinePlaceholder from "./LinePlaceholder";
-
-const Props = {
-    margin: ContainerSpec.MarginProp,
-};
+import PropTypes from "prop-types";
 
 const Text = ({
-    theme, margin, padding, border, color, background, width, contrast, children, ...props
+    width, margin,
+    type, contrast,
+    children, ...props
 }) => {
+    const theme = useContext(ThemeContext);
+
+    let preparedTheme = prepareTheme(
+        theme.text,
+        {
+            type: type,
+            contrast: contrast
+        }
+    );
+
     margin = compileMargin(theme.spacing, {
-        ...ContainerSpec.normalizeMargin(theme.text.margin),
+        ...ContainerSpec.normalizeMargin(preparedTheme.margin),
         ...ContainerSpec.normalizeMargin(margin)
     });
-
-    padding = compilePadding(theme.spacing, {
-        ...ContainerSpec.normalizePadding(theme.text.padding),
-        ...ContainerSpec.normalizePadding(padding)
-    });
-    
-    if (contrast) {
-        theme.text.color = theme.text.contrast.color;
-    }
 
     // Lazy
     if (children === null) {
@@ -34,101 +34,95 @@ const Text = ({
         />;
     }
 
-    border = border || theme.text.border;
-
-    color = color || theme.text.color;
-
-    background = background || theme.text.background;
-
-    width = width || theme.text.width;
-
     return <BaseText
-        margin={margin}
-        padding={padding}
-        border={border}
-        color={color}
-        background={background}
         width={width}
-        size={theme.text.size}
+        align={preparedTheme.align}
+        margin={margin}
+        padding={compilePadding(theme.spacing, {
+            ...ContainerSpec.normalizePadding(preparedTheme.padding),
+        })}
+        border={preparedTheme.border}
+        color={preparedTheme.color}
+        background={preparedTheme.background}
+        font={preparedTheme.font}
+        line={preparedTheme.line}
+        tag={preparedTheme.tag}
         {...props}
     >
         {children}
     </BaseText>
 };
 
-Text.propTypes = Props;
+export const propTypes = {
+    ...Spec.Props,
 
-const TextWithTheme = withTheme(Text);
-
-const BannerText = ({
-    theme, children, ...props
-}) => {
-    theme = {
-        ...theme,
-        text: {
-            ...theme.banner_text
-        }
-    };
-
-    return <Text
-        theme={theme}
-        {...props}
-    >
-        {children}
-    </Text>
+    type: PropTypes.oneOf(["default", "banner", "title", "secondary", "warning", "error"]),
+    contrast: PropTypes.bool,
 };
 
-BannerText.propTypes = Props;
-
-const BannerTextWithTheme = withTheme(BannerText);
-
-const TitleText = ({
-    theme, children, ...props
-}) => {
-    theme = {
-        ...theme,
-        text: {
-            ...theme.title_text
-        }
-    };
-
-    return <Text
-        theme={theme}
-        {...props}
-    >
-        {children}
-    </Text>
+export const defaultProps = {
+    type: undefined,
+    contrast: false
 };
 
-TitleText.propTypes = Props;
+Text.propTypes = propTypes;
 
-const TitleTextWithTheme = withTheme(TitleText);
+Text.defaultProps = defaultProps;
 
-const SecondaryText = ({
-    theme, children, ...props
-}) => {
-    theme = {
-        ...theme,
-        text: {
-            ...theme.secondary_text
-        }
-    };
+const prepareTheme = (theme, {type, contrast}) => {
+    let preparedTheme = {};
 
-    return <Text
-        theme={theme}
-        {...props}
-    >
-        {children}
-    </Text>
+    switch (type) {
+        case "default":
+        case undefined:
+            break;
+        case "banner":
+            preparedTheme = {
+                ...preparedTheme,
+                ...theme.banner_type
+            };
+
+            break;
+        case "title":
+            preparedTheme = {
+                ...preparedTheme,
+                ...theme.title_type
+            };
+
+            break;
+        case "secondary":
+            preparedTheme = {
+                ...preparedTheme,
+                ...theme.secondary_type
+            };
+
+            break;
+        case "warning":
+            preparedTheme = {
+                ...preparedTheme,
+                ...theme.warning_type
+            };
+
+            break;
+        case "error":
+            preparedTheme = {
+                ...preparedTheme,
+                ...theme.error_type
+            };
+
+            break;
+        default:
+            throw new Error(`Unknown type ${type}.`)
+    }
+
+    if (contrast) {
+        preparedTheme = {
+            ...preparedTheme,
+            ...theme.is_contrast
+        };
+    }
+
+    return preparedTheme;
 };
 
-SecondaryText.propTypes = Props;
-
-const SecondaryTextWithTheme = withTheme(SecondaryText);
-
-export {
-    TextWithTheme as Text,
-    BannerTextWithTheme as BannerText,
-    TitleTextWithTheme as TitleText,
-    SecondaryTextWithTheme as SecondaryText,
-};
+export default Text;

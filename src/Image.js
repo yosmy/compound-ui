@@ -1,13 +1,15 @@
-import React from "react";
-import {withTheme} from "@yosmy/style";
+import React, {useContext} from "react";
+import {ThemeContext} from "@yosmy/style";
 import {Image as Spec} from "@yosmy/primitive-ui-spec";
 import {Image as BaseImage} from "@yosmy/primitive-ui";
 import {compileMargin} from "./Container";
 
 const Image = ({
-    theme, margin,
+    margin,
     ...props
 }) => {
+    const theme = useContext(ThemeContext);
+
     return <BaseImage
         margin={compileMargin(theme.spacing, margin)}
         {...props}
@@ -16,4 +18,4 @@ const Image = ({
 
 Image.propTypes = Spec.Props;
 
-export default withTheme(Image);
+export default Image;

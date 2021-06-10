@@ -30,7 +30,7 @@ const Picture = ({
     />;
 }
 
-const Props = {
+export const Props = {
     margin: ContainerSpec.MarginProp,
     source: ImageSpec.SourceProp,
     resize: ImageSpec.ResizeProp,
@@ -76,7 +76,4 @@ const buildSize = (size) => {
     return size;
 };
 
-export {
-    Picture,
-    Props as PictureProps
-};
+export default Picture;

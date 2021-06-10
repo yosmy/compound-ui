@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Container as ContainerSpec} from "@yosmy/primitive-ui-spec";
-import {Text, SecondaryText} from "./Text";
+import Text from "./Text";
 import Container from "./Container";
 
 const ListItem = ({
@@ -22,9 +22,12 @@ const ListItem = ({
     }
 
     if (typeof subtitle === "string") {
-        subtitle = <SecondaryText wrap>
+        subtitle = <Text
+            type="secondary"
+            wrap
+        >
             {subtitle}
-        </SecondaryText>;
+        </Text>;
     } else if (typeof subtitle === "function") {
         subtitle = subtitle();
     }

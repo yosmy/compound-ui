@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -53,39 +53,67 @@ var buildText = function buildText(_ref) {
   var colors = _ref.colors;
   return {
     color: colors.black.base,
-    size: 16 // contrast: {
-    //     color: colors.gray.light1
-    // },
-
+    size: 16,
+    line: 1.5,
+    is_contrast: {
+      color: colors.white.base
+    },
+    banner_type: {
+      size: 28,
+      color: colors.gray.base
+    },
+    title_type: {
+      size: 18
+    },
+    secondary_type: {
+      size: 13
+    },
+    warning_type: {
+      align: {
+        self: "center"
+      },
+      padding: {
+        top: 1,
+        bottom: 1,
+        left: 1,
+        right: 1
+      },
+      color: colors.white.base,
+      background: colors.red.darkest,
+      border: {
+        width: 1,
+        color: colors.red.dark,
+        radius: 8
+      }
+    },
+    error_type: {
+      align: {
+        self: "center"
+      },
+      padding: {
+        top: 1,
+        bottom: 1,
+        left: 1,
+        right: 1
+      },
+      color: colors.white.base,
+      background: colors.red.darkest,
+      border: {
+        width: 1,
+        color: colors.red.dark,
+        radius: 8
+      }
+    }
   };
-};
-
-var buildBannerText = function buildBannerText(props) {
-  var colors = props.colors;
-  var parent = buildText(props);
-  return _objectSpread(_objectSpread({}, parent), {}, {
-    size: 28,
-    color: colors.gray.base
-  });
-};
-
-var buildTitleText = function buildTitleText(props) {
-  var parent = buildText(props);
-  return _objectSpread(_objectSpread({}, parent), {}, {
-    size: 18
-  });
-};
-
-var buildSecondaryText = function buildSecondaryText(props) {
-  var parent = buildText(props);
-  return _objectSpread(_objectSpread({}, parent), {}, {
-    size: 13
-  });
 };
 
 var buildButton = function buildButton(_ref2) {
   var width = _ref2.width,
       radius = _ref2.radius;
+  var border = {
+    width: width,
+    radius: radius
+  };
   return {
     padding: {
       top: 1,
@@ -93,84 +121,58 @@ var buildButton = function buildButton(_ref2) {
       left: 3,
       right: 3
     },
-    border: {
-      width: width,
-      radius: radius
-    },
+    border: border,
     progress: {
       top: 5
+    },
+    primary_type: {
+      border: _objectSpread(_objectSpread({}, border), {}, {
+        color: colors.gray.low
+      }),
+      background: colors.gray.darkest,
+      color: colors.white.base
+    },
+    secondary_type: {
+      padding: {
+        left: 2,
+        right: 2
+      },
+      border: _objectSpread(_objectSpread({}, border), {}, {
+        color: colors.gray.low,
+        radius: 24
+      }),
+      background: colors.gray.low,
+      color: colors.gray.darkest
+    },
+    tertiary_type: {
+      padding: {
+        left: 0,
+        right: 0
+      },
+      border: _objectSpread(_objectSpread({}, border), {}, {
+        width: 0
+      }),
+      color: colors.gray.darkest
+    },
+    icon_type: {
+      padding: 0,
+      border: _objectSpread(_objectSpread({}, border), {}, {
+        width: 0,
+        radius: "50%"
+      }),
+      background: colors.gray.low,
+      width: 32,
+      height: 32
     }
   };
-};
-
-var buildPrimaryButton = function buildPrimaryButton(props) {
-  var colors = props.colors;
-  var parent = buildButton(props);
-  return _objectSpread(_objectSpread({}, parent), {}, {
-    border: _objectSpread(_objectSpread({}, parent.border), {}, {
-      color: colors.green.low
-    }),
-    background: colors.green.high,
-    color: colors.white.base
-  });
-};
-
-var buildSecondaryButton = function buildSecondaryButton(props) {
-  var colors = props.colors;
-  var parent = buildButton(props);
-  return _objectSpread(_objectSpread({}, parent), {}, {
-    padding: _objectSpread(_objectSpread({}, parent.padding), {}, {
-      left: 2,
-      right: 2
-    }),
-    border: _objectSpread(_objectSpread({}, parent.border), {}, {
-      color: colors.gray.low,
-      radius: 24
-    }),
-    background: colors.gray.low,
-    color: colors.gray.high
-  });
-};
-
-var buildTertiaryButton = function buildTertiaryButton(props) {
-  var colors = props.colors;
-  var parent = buildButton(props);
-  return _objectSpread(_objectSpread({}, parent), {}, {
-    padding: _objectSpread(_objectSpread({}, parent.padding), {}, {
-      left: 0,
-      right: 0
-    }),
-    border: _objectSpread(_objectSpread({}, parent.border), {}, {
-      width: 0
-    }),
-    color: colors.gray.high
-  });
-};
-
-var buildIconButton = function buildIconButton(props) {
-  var colors = props.colors;
-  var parent = buildSecondaryButton(props);
-  return _objectSpread(_objectSpread({}, parent), {}, {
-    padding: 0,
-    border: {
-      width: 0,
-      radius: "50%"
-    },
-    background: colors.gray.low,
-    width: 32,
-    height: 32
-  });
 };
 
 var buildIcon = function buildIcon(props) {
   var colors = props.colors;
   return {
     size: 18,
-    contrast: {
+    is_contrast: {
       color: colors.gray.base
-    },
-    big: {
-      size: 24
     }
   };
 };
@@ -189,14 +191,15 @@ var buildInput = function buildInput(props) {
     },
     entry: {
       margin: 0,
-      padding: {
-        top: 1,
-        right: 1,
-        bottom: 1,
-        left: 1
-      },
+      padding: 0,
       color: colors.gray.dark,
       size: text.size
+    },
+    start: {
+      margin: {
+        right: 1
+      },
+      color: colors.gray.dark
     }
   };
 };
@@ -227,26 +230,6 @@ var buildCountryPicker = function buildCountryPicker(props) {
   });
 };
 
-var buildError = function buildError(props) {
-  var width = props.width,
-      colors = props.colors;
-  return {
-    padding: {
-      top: 1,
-      bottom: 1,
-      left: 1,
-      right: 1
-    },
-    color: colors.white.base,
-    background: colors.red.high,
-    border: {
-      width: width,
-      color: colors.red.low,
-      radius: 8
-    }
-  };
-};
-
 var build = function build(props) {
   var width = props.width,
       colors = props.colors;
@@ -255,14 +238,7 @@ var build = function build(props) {
       return amount * 8;
     },
     text: buildText(props),
-    banner_text: buildBannerText(props),
-    title_text: buildTitleText(props),
-    secondary_text: buildSecondaryText(props),
     button: buildButton(props),
-    primary_button: buildPrimaryButton(props),
-    secondary_button: buildSecondaryButton(props),
-    tertiary_button: buildTertiaryButton(props),
-    icon_button: buildIconButton(props),
     // warning_button: {
     //     background: colors.amber.light1,
     //     color: colors.amber.dark2,
@@ -342,22 +318,6 @@ var build = function build(props) {
     //     }
     // },
     country_picker: buildCountryPicker(props),
-    error: buildError(props),
-    // warning: {
-    //     padding: {
-    //         top: 1,
-    //         bottom: 1,
-    //         left: 3,
-    //         right: 3
-    //     },
-    //     color: colors.amber.light1,
-    //     background: colors.amber.base,
-    //     border: {
-    //         width: width,
-    //         color: colors.gray.dark2,
-    //         radius: 8
-    //     },
-    // },
     input: buildInput(props),
     modal: buildModal(props),
     divider: {

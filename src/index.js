@@ -1,6 +1,6 @@
 import BlankLayout from "./BlankLayout";
 import BufferList from "./BufferList";
-import {ThemedButton, PrimaryButton, SecondaryButton, TertiaryButton, IconButton, WarningButton, DangerButton, TabButton} from "./Button";
+import Button from "./Button";
 import {Card, WarningCard} from "./Card";
 import Chart from "./Chart";
 import CirclePlaceholder from "./CirclePlaceholder";
@@ -8,9 +8,8 @@ import Container from "./Container";
 import CountryPicker from "./CountryPicker";
 import CreditCard from "./CreditCard";
 import EmptyLayout from "./EmptyLayout";
-import Error from "./Error";
 import Flag from "./Flag";
-import {Icon} from "./Icon";
+import Icon from "./Icon";
 import Image from "./Image";
 import Input from "./Input";
 import {resolveInterval, IntervalDropdown, IntervalProps} from "./IntervalDropdown";
@@ -23,18 +22,16 @@ import LoaderListLoading from "./LoaderListLoading";
 import LoaderListMore from "./LoaderListMore";
 import Loading from "./Loading";
 import Modal from "./Modal";
-import {Picture, PictureProps} from "./Picture";
+import Picture from "./Picture";
 import Progress from "./Progress";
-import {Text, BannerText, TitleText, SecondaryText} from "./Text";
-import Theme from "./Theme";
+import Text from "./Text";
+import Theming from "./Theming";
 import Tree from "./Tree";
-import Upload from "./Upload";
-import Warning from "./Warning";
 
 export {
     BlankLayout,
     BufferList,
-    ThemedButton, PrimaryButton, SecondaryButton, TertiaryButton, IconButton, WarningButton, DangerButton, TabButton,
+    Button,
     Card, WarningCard,
     Chart,
     CirclePlaceholder,
@@ -42,7 +39,6 @@ export {
     CountryPicker,
     CreditCard,
     EmptyLayout,
-    Error,
     Flag,
     Icon,
     Image,
@@ -55,11 +51,9 @@ export {
     LoaderList, LoaderListMore, LoaderListLoading,
     Loading,
     Modal,
-    Picture, PictureProps,
+    Picture,
     Progress,
-    Text, BannerText, TitleText, SecondaryText,
-    Theme,
+    Text,
+    Theming,
     Tree,
-    Upload,
-    Warning
 };

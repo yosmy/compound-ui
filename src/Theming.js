@@ -42,43 +42,65 @@ const buildText = ({colors}) => {
     return {
         color: colors.black.base,
         size: 16,
-        // contrast: {
-        //     color: colors.gray.light1
-        // },
+        line: 1.5,
+        is_contrast: {
+            color: colors.white.base
+        },
+        banner_type: {
+            size: 28,
+            color: colors.gray.base
+        },
+        title_type: {
+            size: 18,
+        },
+        secondary_type: {
+            size: 13
+        },
+        warning_type: {
+            align: {
+                self: "center"
+            },
+            padding: {
+                top: 1,
+                bottom: 1,
+                left: 1,
+                right: 1
+            },
+            color: colors.white.base,
+            background: colors.red.darkest,
+            border: {
+                width: 1,
+                color: colors.red.dark,
+                radius: 8
+            },
+        },
+        error_type: {
+            align: {
+                self: "center"
+            },
+            padding: {
+                top: 1,
+                bottom: 1,
+                left: 1,
+                right: 1
+            },
+            color: colors.white.base,
+            background: colors.red.darkest,
+            border: {
+                width: 1,
+                color: colors.red.dark,
+                radius: 8
+            },
+        }
     };
 };
 
-const buildBannerText = (props) => {
-    const {colors} = props;
-
-    const parent = buildText(props);
-
-    return {
-        ...parent,
-        size: 28,
-        color: colors.gray.base
-    }
-};
-
-const buildTitleText = (props) => {
-    const parent = buildText(props);
-
-    return {
-        ...parent,
-        size: 18,
-    }
-};
-
-const buildSecondaryText = (props) => {
-    const parent = buildText(props);
-
-    return {
-        ...parent,
-        size: 13,
-    }
-};
-
 const buildButton = ({width, radius}) => {
+    const border = {
+        width: width,
+        radius: radius
+    };
+
     return {
         padding: {
             top: 1,
@@ -86,90 +108,54 @@ const buildButton = ({width, radius}) => {
             left: 3,
             right: 3
         },
-        border: {
-            width: width,
-            radius: radius
-        },
+        border: border,
         progress: {
             top: 5
+        },
+        primary_type: {
+            border: {
+                ...border,
+                color: colors.gray.low,
+            },
+            background: colors.gray.darkest,
+            color: colors.white.base,
+        },
+        secondary_type: {
+            padding: {
+                left: 2,
+                right: 2
+            },
+            border: {
+                ...border,
+                color: colors.gray.low,
+                radius: 24
+            },
+            background: colors.gray.low,
+            color: colors.gray.darkest,
+        },
+        tertiary_type: {
+            padding: {
+                left: 0,
+                right: 0
+            },
+            border: {
+                ...border,
+                width: 0,
+            },
+            color: colors.gray.darkest,
+        },
+        icon_type: {
+            padding: 0,
+            border: {
+                ...border,
+                width: 0,
+                radius: "50%"
+            },
+            background: colors.gray.low,
+            width: 32,
+            height: 32
         }
     };
-};
-
-const buildPrimaryButton = (props) => {
-    const {colors} = props;
-
-    const parent = buildButton(props);
-
-    return {
-        ...parent,
-        border: {
-            ...parent.border,
-            color: colors.green.low,
-        },
-        background: colors.green.high,
-        color: colors.white.base,
-    }
-};
-
-const buildSecondaryButton = (props) => {
-    const {colors} = props;
-
-    const parent = buildButton(props);
-
-    return {
-        ...parent,
-        padding: {
-            ...parent.padding,
-            left: 2,
-            right: 2
-        },
-        border: {
-            ...parent.border,
-            color: colors.gray.low,
-            radius: 24
-        },
-        background: colors.gray.low,
-        color: colors.gray.high,
-    }
-};
-
-const buildTertiaryButton = (props) => {
-    const {colors} = props;
-
-    const parent = buildButton(props);
-
-    return {
-        ...parent,
-        padding: {
-            ...parent.padding,
-            left: 0,
-            right: 0
-        },
-        border: {
-            ...parent.border,
-            width: 0,
-        },
-        color: colors.gray.high,
-    }
-};
-
-const buildIconButton = (props) => {
-    const {colors} = props;
-
-    const parent = buildSecondaryButton(props);
-
-    return {
-        ...parent,
-        padding: 0,
-        border: {
-            width: 0,
-            radius: "50%"
-        },
-        background: colors.gray.low,
-        width: 32,
-        height: 32
-    }
 };
 
 const buildIcon = (props) => {
@@ -177,12 +163,9 @@ const buildIcon = (props) => {
 
     return {
         size: 18,
-        contrast: {
+        is_contrast: {
             color: colors.gray.base
         },
-        big: {
-            size: 24
-        }
     }
 };
 
@@ -200,14 +183,15 @@ const buildInput = (props) => {
         },
         entry: {
             margin: 0,
-            padding: {
-                top: 1,
-                right: 1,
-                bottom: 1,
-                left: 1
-            },
+            padding: 0,
             color: colors.gray.dark,
             size: text.size
+        },
+        start: {
+            margin: {
+                right: 1
+            },
+            color: colors.gray.dark,
         }
     }
 };
@@ -237,26 +221,6 @@ const buildCountryPicker = (props) => {
     };
 };
 
-const buildError = (props) => {
-    const {width, colors} = props;
-
-    return {
-        padding: {
-            top: 1,
-            bottom: 1,
-            left: 1,
-            right: 1
-        },
-        color: colors.white.base,
-        background: colors.red.high,
-        border: {
-            width: width,
-            color: colors.red.low,
-            radius: 8
-        },
-    };
-};
-
 const build = (props) => {
     const {width, colors} = props;
 
@@ -265,14 +229,7 @@ const build = (props) => {
             return amount * 8;
         },
         text: buildText(props),
-        banner_text: buildBannerText(props),
-        title_text: buildTitleText(props),
-        secondary_text: buildSecondaryText(props),
         button: buildButton(props),
-        primary_button: buildPrimaryButton(props),
-        secondary_button: buildSecondaryButton(props),
-        tertiary_button: buildTertiaryButton(props),
-        icon_button: buildIconButton(props),
         // warning_button: {
         //     background: colors.amber.light1,
         //     color: colors.amber.dark2,
@@ -352,22 +309,6 @@ const build = (props) => {
         //     }
         // },
         country_picker: buildCountryPicker(props),
-        error: buildError(props),
-        // warning: {
-        //     padding: {
-        //         top: 1,
-        //         bottom: 1,
-        //         left: 3,
-        //         right: 3
-        //     },
-        //     color: colors.amber.light1,
-        //     background: colors.amber.base,
-        //     border: {
-        //         width: width,
-        //         color: colors.gray.dark2,
-        //         radius: 8
-        //     },
-        // },
         input: buildInput(props),
         modal: buildModal(props),
         divider: {
@@ -381,5 +322,5 @@ const build = (props) => {
 
 export default {
     colors,
-    build
+    build,
 };

@@ -1,18 +1,19 @@
-import React, {memo} from "react";
+import React, {forwardRef} from "react";
 import PropTypes from "prop-types";
-import {withTheme} from "@yosmy/style";
+import {useService} from "@yosmy/service";
 import {Container as ContainerSpec, Input as InputSpec} from "@yosmy/primitive-ui-spec";
 import {Input as BaseInput} from "@yosmy/primitive-ui";
 import Container, {compileMargin, compilePadding} from "./Container";
-import Error from "./Error";
-import {SecondaryText} from "./Text";
+import Text from "./Text";
 
-const Input = memo(({
-    theme, margin, width,
-    id, value, placeholder, focus, keyboard, length, multi, secure, capitalize, onChange,
+const Input = forwardRef(({
+    margin, width,
+    id, value, placeholder, focus, keyboard, length, multi, secure, capitalize, onChange, onEnter,
     start, end, help, error,
     ...props
-}) => {
+}, ref) => {
+    const theme = useService("theme");
+
     return <Container
         flow="column"
         align={{
@@ -36,17 +37,20 @@ const Input = memo(({
             background={theme.input.background}
         >
             {start && <start.type
-                color={theme.input.entry.color}
+                margin={theme.input.start.margin}
+                padding={theme.input.start.padding}
+                color={theme.input.start.color}
                 {...start.props}
             />}
             <BaseInput
+                ref={ref}
                 id={id}
                 flex={1}
                 margin={compileMargin(theme.spacing, theme.input.entry.margin)}
                 padding={compilePadding(theme.spacing, theme.input.entry.padding)}
                 color={theme.input.entry.color}
                 background={theme.input.entry.background}
-                size={theme.input.entry.size}
+                font={theme.input.entry.font}
                 value={value}
                 placeholder={placeholder}
                 focus={focus}
@@ -56,20 +60,23 @@ const Input = memo(({
                 secure={secure}
                 capitalize={capitalize}
                 onChange={onChange}
+                onEnter={onEnter}
             />
             {end && <end.type
                 color={theme.input.entry.color}
                 {...end.props}
             />}
         </Container>
-        {help && <SecondaryText
+        {help && <Text
+            type="secondary"
             margin={{
                 top: 0.5
             }}
         >
             {help}
-        </SecondaryText>}
-        {error && <Error
+        </Text>}
+        {error && <Text
+            type="error"
             align={{
                 main: "flex-start"
             }}
@@ -83,14 +90,8 @@ const Input = memo(({
             }}
         >
             {error}
-        </Error>}
+        </Text>}
     </Container>
-}, (prev, next) => {
-    return (
-        prev.value === next.value
-        && prev.start === next.start
-        && prev.end === next.end
-    );
 });
 
 Input.propTypes = {
@@ -130,4 +131,4 @@ Input.propTypes = {
 //     )
 // }
 
-export default withTheme(Input);
+export default Input;

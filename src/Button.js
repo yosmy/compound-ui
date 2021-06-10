@@ -1,60 +1,52 @@
-import React from "react";
+import React, {useContext} from "react";
 import PropTypes from "prop-types";
 import {Container as ContainerSpec} from "@yosmy/primitive-ui-spec"
 import {Button as BaseButton, Progress} from "@yosmy/primitive-ui";
-import {withTheme} from "@yosmy/style";
+import {ThemeContext} from "@yosmy/style";
 import {compileMargin, compilePadding} from "./Container";
 
 const Button = ({
-    theme, margin, padding, border, background, width, height,
-    contrast, progress, onClick, children, ...props
+    margin, progress, onClick,
+    type, contrast,
+    children, ...props
 }) => {
-    margin = compileMargin(theme.spacing, {
-        ...theme.button.margin,
-        ...ContainerSpec.normalizeMargin(margin)
-    });
+    const theme = useContext(ThemeContext);
 
-    padding = compilePadding(theme.spacing, {
-        ...theme.button.padding,
-        ...ContainerSpec.normalizePadding(padding)
-    });
-
-    border = border || theme.button.border;
-
-    background = background || theme.button.background;
-
-    width = width || theme.button.width;
-
-    height = height || theme.button.height;
+    let preparedTheme = prepareTheme(
+        theme,
+        {
+            type: type,
+            contrast: contrast
+        }
+    );
 
     if (progress) {
-        children = putProgress(theme, children);
+        children = putProgress(preparedTheme, children);
     }
 
-    if (contrast) {
-        theme.button.color = theme.button.contrast.color;
-    }
+    children = addColor(children, preparedTheme.button.color);
 
-    children = addColor(children, theme.button.color);
-
-    children = addMargin(children, theme);
+    children = addMargin(children);
 
     return <BaseButton
         flow="row"
-        margin={margin}
-        padding={padding}
-        border={border}
-        background={background}
-        width={width}
-        height={height}
-        onClick={() => {
+        margin={compileMargin(preparedTheme.spacing, {
+            ...preparedTheme.button.margin,
+            ...ContainerSpec.normalizeMargin(margin)
+        })}
+        padding={compilePadding(preparedTheme.spacing, preparedTheme.button.padding)}
+        border={preparedTheme.button.border}
+        background={preparedTheme.button.background}
+        width={preparedTheme.button.width}
+        height={preparedTheme.button.height}
+        onClick={(value) => {
             // It is still an onClick function but do nothing
 
             if (progress) {
                 return;
             }
 
-            onClick();
+            onClick(value);
         }}
         {...props}
     >
@@ -62,12 +54,83 @@ const Button = ({
     </BaseButton>
 };
 
-Button.propTypes = {
-    contrast: PropTypes.bool,
+export const propTypes = {
     margin: ContainerSpec.MarginProp,
-    padding: ContainerSpec.PaddingProp,
     progress: PropTypes.bool,
     onClick: ContainerSpec.OnClickProp.isRequired,
+
+    type: PropTypes.oneOf(["primary", "secondary", "tertiary", "icon"]),
+    contrast: PropTypes.bool,
+}
+
+export const defaultProps = {
+    type: "primary",
+    contrast: false
+};
+
+Button.propTypes = propTypes;
+
+Button.defaultProps = defaultProps;
+
+const prepareTheme = (theme, {type, contrast}) => {
+    let preparedTheme = {};
+
+    switch (type) {
+        case "primary":
+            preparedTheme = {
+                ...theme,
+                button: {
+                    ...theme.button,
+                    ...theme.button.primary_type
+                }
+            };
+
+            break;
+        case "secondary":
+            preparedTheme = {
+                ...theme,
+                button: {
+                    ...theme.button,
+                    ...theme.button.secondary_type
+                }
+            };
+
+            break;
+        case "tertiary":
+            preparedTheme = {
+                ...theme,
+                button: {
+                    ...theme.button,
+                    ...theme.button.tertiary_type
+                }
+            };
+
+            break;
+        case "icon":
+            preparedTheme = {
+                ...theme,
+                button: {
+                    ...theme.button,
+                    ...theme.button.icon_type
+                }
+            };
+
+            break;
+        default:
+            throw new Error(`Unknown type ${type}.`)
+    }
+
+    if (contrast) {
+        preparedTheme = {
+            ...preparedTheme,
+            button: {
+                ...preparedTheme.button,
+                ...preparedTheme.button.is_contrast
+            }
+        };
+    }
+
+    return preparedTheme;
 };
 
 const isIcon = (elem) => {
@@ -75,11 +138,11 @@ const isIcon = (elem) => {
 };
 
 const putProgress = (theme, children) => {
-    const progress = <Progress
-        size={10}
-    />;
-
     const count = React.Children.count(children);
+
+    const progress = <Progress
+        color={theme.button.color}
+    />;
 
     switch (count) {
         case 1:
@@ -88,11 +151,11 @@ const putProgress = (theme, children) => {
             } else {
                 children = [
                     children,
-                    <Progress
-                        color={theme.button.color}
+                    <progress.type
+                        {...progress.props}
                         style={{
                             position: "absolute",
-                            top: theme.spacing(theme.button.padding.top) + theme.button.progress.top,
+                            top: theme.button.padding && theme.button.progress && theme.spacing(theme.button.padding.top) + theme.button.progress.top,
                             right: theme.spacing(2),
                         }}
                     />
@@ -150,186 +213,4 @@ const addMargin = (children) => {
     });
 }
 
-const PrimaryButton = ({
-    theme, ...props
-}) => {
-    theme = {
-        ...theme,
-        button: {
-            ...theme.button,
-            ...theme.primary_button,
-            border: {
-                ...theme.button.border,
-                ...theme.primary_button.border,
-            }
-        },
-    };
-
-    return <Button
-        theme={theme}
-        {...props}
-    />
-};
-
-const PrimaryButtonWithTheme = withTheme(PrimaryButton);
-
-const SecondaryButton = ({
-    theme, ...props
-}) => {
-    theme = {
-        ...theme,
-        button: {
-            ...theme.button,
-            ...theme.secondary_button,
-            border: {
-                ...theme.button.border,
-                ...theme.secondary_button.border,
-            }
-        },
-    };
-
-    return <Button
-        theme={theme}
-        {...props}
-    />
-};
-
-const SecondaryButtonWithTheme = withTheme(SecondaryButton);
-
-const TertiaryButton = ({
-    theme, ...props
-}) => {
-    theme = {
-        ...theme,
-        button: {
-            ...theme.button,
-            ...theme.tertiary_button,
-            border: {
-                ...theme.button.border,
-                ...theme.tertiary_button.border,
-            }
-        },
-    };
-
-    return <Button
-        theme={theme}
-        {...props}
-    />
-};
-
-const TertiaryButtonWithTheme = withTheme(TertiaryButton);
-
-
-const IconButton = ({
-    theme, ...props
-}) => {
-    theme = {
-        ...theme,
-        button: {
-            ...theme.button,
-            ...theme.icon_button,
-            border: {
-                ...theme.button.border,
-                ...theme.icon_button.border,
-            }
-        },
-    };
-
-    return <Button
-        theme={theme}
-        {...props}
-    />
-};
-
-const IconButtonWithTheme = withTheme(IconButton);
-
-const WarningButton = ({
-    theme, ...props
-}) => {
-    theme = {
-        ...theme,
-        button: {
-            ...theme.button,
-            ...theme.warning_button,
-            border: {
-                ...theme.button.border,
-                ...theme.warning_button.border,
-            }
-        },
-    };
-
-    return <Button
-        theme={theme}
-        {...props}
-    />
-};
-
-const WarningButtonWithTheme = withTheme(WarningButton);
-
-const DangerButton = ({
-    theme, ...props
-}) => {
-    theme = {
-        ...theme,
-        button: {
-            ...theme.button,
-            ...theme.danger_button,
-            border: {
-                ...theme.button.border,
-                ...theme.danger_button.border,
-            }
-        },
-    };
-
-    return <Button
-        theme={theme}
-        {...props}
-    />
-};
-
-const DangerButtonWithTheme = withTheme(DangerButton);
-
-const TabButton = ({
-    theme, first, last, ...props
-}) => {
-    theme = {
-        ...theme,
-        button: {
-            ...theme.button,
-            ...theme.tab_button,
-            border: {
-                ...theme.button.border,
-                ...theme.tab_button.border,
-                left: !first ? {
-                    width: 1,
-                    color: theme.tab_button.border.color,
-                } : undefined,
-            },
-            padding: {
-                left: !first ? theme.tab_button.padding.left : undefined,
-                right: !last ? theme.tab_button.padding.right : undefined,
-            }
-        },
-    };
-
-    return <Button
-        theme={theme}
-        align={{
-            main: "flex-start"
-        }}
-        {...props}
-    />
-};
-
-const TabButtonWithTheme = withTheme(TabButton);
-
-export {
-    Button as ThemedButton,
-    PrimaryButtonWithTheme as PrimaryButton,
-    SecondaryButtonWithTheme as SecondaryButton,
-    TertiaryButtonWithTheme as TertiaryButton,
-    IconButtonWithTheme as IconButton,
-    DangerButtonWithTheme as DangerButton,
-    WarningButtonWithTheme as WarningButton,
-    TabButtonWithTheme as TabButton,
-};
+export default Button;
